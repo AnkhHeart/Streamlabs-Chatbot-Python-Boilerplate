@@ -1,0 +1,42 @@
+{
+    "output_file": "Settings/settings.json",
+    "Command": {
+      "type": "textbox",
+      "value": "!ping",
+      "label": "Command",
+      "tooltip": "The command that will be responded to.",
+      "group": "Core"
+    },
+    "Permission": {
+      "type": "dropdown",
+      "value": "everyone",
+      "items": ["everyone","moderator","subscriber","user_specific","editor"],
+      "label": "Permission",
+      "tooltip": "Who is able to use the command",
+      "group": "Core"
+    },
+    "Info": {
+        "type": "textbox",
+        "value": "",
+        "label": "Info",
+        "tooltip": "This field should only be filled when using the user_specific permission.",
+        "group": "Core"
+      },
+    "Cooldown": {
+      "type": "slider",
+      "value": 4,
+      "min": 1,
+      "max": 100,
+      "ticks": 1,
+      "label": "Cooldown (seconds)",
+      "tooltip": "How long the command should go on cooldown for",
+      "group": "Core"
+    },
+    "Response": {
+        "type": "textbox",
+        "value": "Pong!",
+        "label": "Command",
+        "tooltip": "The message that will be sent to chat when using the command.",
+        "group": "Core"
+      }
+  }
