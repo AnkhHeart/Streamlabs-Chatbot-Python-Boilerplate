@@ -17,7 +17,7 @@ from Settings_Module import MySettings
 #---------------------------
 ScriptName = "Template Script"
 Website = "https://www.streamlabs.com"
-Description = "!test will post a message in chat"
+Description = "This is a basic boilerplate script"
 Creator = "AnkhHeart"
 Version = "1.0.0.0"
 
@@ -25,14 +25,21 @@ Version = "1.0.0.0"
 #   Define Global Variables
 #---------------------------
 global SettingsFile
-SettingsFile = os.path.join(os.path.dirname(__file__), "Settings\settings.json")
 global ScriptSettings
-ScriptSettings = MySettings(SettingsFile)
 
 #---------------------------
 #   [Required] Initialize Data (Only called on load)
 #---------------------------
 def Init():
+
+    #   Create Settings Directory
+    directory = os.path.join(os.path.dirname(__file__), "Settings")
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    #   Load settings
+    SettingsFile = os.path.join(os.path.dirname(__file__), "Settings\settings.json")
+    ScriptSettings = MySettings(SettingsFile)
     ScriptSettings.Response = "Overwritten pong! ^_^"
     return
 
