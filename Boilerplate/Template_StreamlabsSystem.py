@@ -17,7 +17,7 @@ from Settings_Module import MySettings
 #---------------------------
 ScriptName = "Template Script"
 Website = "https://www.streamlabs.com"
-Description = "This is a basic boilerplate script"
+Description = "!test will post a message in chat"
 Creator = "AnkhHeart"
 Version = "1.0.0.0"
 
@@ -25,7 +25,9 @@ Version = "1.0.0.0"
 #   Define Global Variables
 #---------------------------
 global SettingsFile
+SettingsFile = ""
 global ScriptSettings
+ScriptSettings = MySettings()
 
 #---------------------------
 #   [Required] Initialize Data (Only called on load)
@@ -48,10 +50,15 @@ def Init():
 #---------------------------
 def Execute(data):
 
+    if data.IsChatMessage() and Parent.IsOnUserCooldown(ScriptName,ScriptSettings.Command,data.User):
+        Parent.SendStreamMessage("Time Remaining " + str(Parent.GetUserCooldownDuration(ScriptName,ScriptSettings.Command,data.User)))
+
     #   Check if the propper command is used, the command is not on cooldown and the user has permission to use the command
-    if data.IsChatMessage() and data.GetParam(0).lower() == ScriptSettings.Command and not Parent.IsOnCooldown(ScriptName,ScriptSettings.Command) and Parent.HasPermission(data.User,ScriptSettings.Permission,ScriptSettings.Info):
+    if data.IsChatMessage() and data.GetParam(0).lower() == ScriptSettings.Command and not Parent.IsOnUserCooldown(ScriptName,ScriptSettings.Command,data.User) and Parent.HasPermission(data.User,ScriptSettings.Permission,ScriptSettings.Info):
         Parent.SendStreamMessage(ScriptSettings.Response)    # Send your message to chat
-        Parent.AddCooldown(ScriptName,ScriptSettings.Command,ScriptSettings.Cooldown)  # Put the command on cooldown
+        Parent.AddUserCooldown(ScriptName,ScriptSettings.Command,data.User,ScriptSettings.Cooldown)  # Put the command on cooldown
+
+    
     return
 
 #---------------------------
