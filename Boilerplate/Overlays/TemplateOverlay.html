@@ -1,0 +1,79 @@
+<html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script src="API_Key.js"></script>
+
+<body>
+  <div id="app">
+    <p style="color:red;" v-html="my_event"></p>
+    <p v-html="last_event"></p>
+  </div>
+</body>
+
+
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      last_event: "",
+      my_event: "",
+      serviceUrl: "",
+      socket: Object
+    },
+    mounted: function () {
+      //---------------------------------
+      //  Variables
+      //---------------------------------
+      this.serviceUrl = API_Socket;
+      this.socket = new WebSocket(this.serviceUrl);
+
+      //---------------------------------
+      //  Open Event
+      //---------------------------------
+      this.socket.onopen = function () {
+        // Format your Authentication Information
+        var auth = {
+          author: 'YOUR_NAME',
+          website: 'YOUR_SITE',
+          api_key: API_Key,
+          events: ['EVENT_MINE']
+        };
+
+        //  Send your Data to the server
+        vm.socket.send(JSON.stringify(auth));
+      };
+
+      //---------------------------------
+      //  Error Event
+      //---------------------------------
+      this.socket.onerror = function (error) {
+        //  Something went terribly wrong... Respond?!
+        console.log('Error: ' + error);
+      };
+
+      //---------------------------------
+      //  Message Event
+      //---------------------------------
+      this.socket.onmessage = function (message) {
+        var json = JSON.parse(message.data);
+        if(json.event == 'EVENT_MINE') {
+          vm.my_event += `${message.data}<br>`;
+        } else {
+          vm.last_event += `${message.data}<br>`;
+        }
+
+        //  You have received new data now process it
+        console.log(message);
+      };
+
+      //---------------------------------
+      //  Message Event
+      //---------------------------------
+      this.socket.onclose = function () {
+        //  Connection has been closed by you or the server
+        console.log("Connection Closed!");
+      };
+    }
+  });
+</script>
+
+</html>
