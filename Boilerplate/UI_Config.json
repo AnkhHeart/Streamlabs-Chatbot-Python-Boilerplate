@@ -35,7 +35,7 @@
     "Response": {
         "type": "textbox",
         "value": "Pong!",
-        "label": "Command",
+        "label": "Response",
         "tooltip": "The message that will be sent to chat when using the command.",
         "group": "Core"
       }
